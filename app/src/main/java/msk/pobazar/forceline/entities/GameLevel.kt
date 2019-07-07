@@ -61,50 +61,18 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
      * @param l2 - вторая линия
      */
     private fun checkLines(l1: Line, l2: Line): Boolean {
-        val xEnd1: Int
-        val xStart1: Int
-        val yEnd1: Int
-        val yStart1: Int
-        val xEnd2: Int
-        val xStart2: Int
-        val yEnd2: Int
-        val yStart2: Int
-        val x: Boolean
-        val y: Boolean
-        if (l1.start.x > l1.end.x) {
-            xStart1 = l1.start.x
-            xEnd1 = l1.end.x
-        } else {
-            xStart1 = l1.end.x
-            xEnd1 = l1.start.x
-        }
-        if (l1.start.y > l1.end.y) {
-            yStart1 = l1.start.y
-            yEnd1 = l1.end.y
-        } else {
-            yStart1 = l1.end.y
-            yEnd1 = l1.start.y
-        }
-        if (l2.start.x > l2.end.x) {
-            xStart2 = l2.start.x
-            xEnd2 = l2.end.x
-        } else {
-            xStart2 = l2.end.x
-            xEnd2 = l2.start.x
-        }
-        if (l2.start.y > l2.end.y) {
-            yStart2 = l2.start.y
-            yEnd2 = l2.end.y
-        } else {
-            yStart2 = l2.end.y
-            yEnd2 = l2.start.y
-        }
-        if (!(((xStart2 >= xEnd1) && (xStart2 <= xStart1)) || ((xEnd2 >= xEnd1) && (xEnd2 <= xStart1)))) {
-            return false
-        }
-        if (!(((yStart2 >= yEnd1) && (yStart2 <= yStart1)) || ((yEnd2 >= yEnd1) && (yEnd2 <= yStart1)))) {
-            return false
-        }
-        return true
+        val ax1: Int = l1.end.x
+        val ax2: Int = l1.start.x
+        val ay1: Int = l1.end.y
+        val ay2: Int = l1.start.y
+        val bx1: Int = l2.end.x
+        val bx2: Int = l2.start.x
+        val by1: Int = l2.end.y
+        val by2: Int = l2.start.y
+        val v1: Int = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1)
+        val v2: Int = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1)
+        val v3: Int = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1)
+        val v4: Int = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1)
+        return ((v1 * v2 < 0) && (v3 * v4 < 0))
     }
 }
