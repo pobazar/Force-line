@@ -20,28 +20,45 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
      * Проверяет решена ли игра
      */
     fun checkWin(): Boolean {
-        for (line in lines) {
+        for (line in lines)
             if (!line.status)
                 return false
-        }
         return true
+    }
+
+    /**
+     * меняет местами две точки на поле
+     */
+    fun swapPoint(p1: Point, p2: Point) {
+        for (p in field) {
+            if (p.id == p1.id) {
+                p.x = p2.x
+                p.y = p2.y
+                break
+            }
+        }
+        for (p in field) {
+            if (p.id == p2.id) {
+                p.x = p1.x
+                p.y = p1.y
+                break
+            }
+        }
     }
 
     /**
      * Заполняем массив lines
      */
-    fun initLines() {
-        for (tr in 1..countPoint) {
-            val line = Line(field[tr], field[transitions[tr]])
-            lines[tr] = line
-        }
+    private fun initLines() {
+        for (tr in 1..countPoint)
+            lines[tr-1] = Line(field[tr-1], field[transitions[tr-1]])
         calculateLines()
     }
 
     /**
      * Пересчитывает массив линий
      */
-    private fun calculateLines() {
+    fun calculateLines() {
         for (line1 in lines) {
             line1.status = true
             for (line2 in lines) {
