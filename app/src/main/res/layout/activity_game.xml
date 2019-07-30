@@ -6,9 +6,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.GameActivity">
-    <ImageButton
-            android:src="@drawable/blue"
-            android:layout_width="178dp"
-            android:layout_height="140dp" tools:layout_editor_absoluteY="121dp"
-            tools:layout_editor_absoluteX="16dp" android:id="@+id/imageButton" android:scaleType="centerInside"/>
+
 </android.support.constraint.ConstraintLayout>
