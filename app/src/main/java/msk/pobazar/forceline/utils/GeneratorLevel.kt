@@ -2,6 +2,7 @@ package msk.pobazar.forceline.utils
 
 import msk.pobazar.forceline.entities.GameLevel
 import msk.pobazar.forceline.entities.Point
+import java.util.*
 
 class GeneratorLevel {
 
@@ -11,7 +12,7 @@ class GeneratorLevel {
         val transition: Array<Int> = Array(countPoint) { 0 }
         val field: Array<Point> = Array(countPoint) { Point(-1, 0F, 0F, false) }
         for (i in 1..countPoint) {
-            field[i - 1] = Point(i - 1, (100 * (i)).toFloat(), (100 * (i)).toFloat(), false)
+            field[i - 1] = Point(i - 1, Random().nextFloat() * 1000 + 100, Random().nextFloat() * 1000 + 100, false)
         }
         transition[0] = 1
         transition[1] = 2

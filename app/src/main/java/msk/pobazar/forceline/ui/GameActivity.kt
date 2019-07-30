@@ -18,26 +18,37 @@ import msk.pobazar.forceline.utils.GeneratorLevel
 
 class GameActivity : MvpAppCompatActivity(), GameView {
 
-//    private val gamePresenter: GamePresenter = GamePresenter()
+    //    private val gamePresenter: GamePresenter = GamePresenter()
     private var gameLevel: GameLevel = GeneratorLevel().generateLevel()
 
     lateinit var field: Array<Point>
     lateinit var lines: Array<Line>
-    var paint: Paint = Paint()
+    var paintPoint: Paint = Paint()
+    var paintLineBlue: Paint = Paint()
+    var paintLineRed: Paint = Paint()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(DrawView(this))
-        paint.color = Color.BLUE
-        paint.strokeWidth = 10F
-        field=gameLevel.field
-        lines=gameLevel.lines
+        paintPoint.color = Color.BLUE
+        paintLineBlue.color = Color.BLUE
+        paintLineBlue.strokeWidth = 5F
+        paintLineRed.color = Color.RED
+        paintLineRed.strokeWidth = 5F
+        field = gameLevel.field
+        lines = gameLevel.lines
     }
 
     fun drawGame(canvas: Canvas) {
         //canvas.drawColor(Color.GREEN)
         for (p in field) {
-            canvas.drawCircle(p.x, p.y, 50F, Paint())
+            canvas.drawCircle(p.x, p.y, 50F, paintPoint)
+        }
+        for (l in lines) {
+            if (l.status)
+                canvas.drawLine(l.end.x, l.end.y, l.start.x, l.start.y, paintLineBlue)
+            else
+                canvas.drawLine(l.end.x, l.end.y, l.start.x, l.start.y, paintLineRed)
         }
     }
 
