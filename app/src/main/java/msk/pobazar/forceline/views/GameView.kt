@@ -1,8 +1,8 @@
 package msk.pobazar.forceline.views
 
-import android.graphics.Point
 import com.arellomobile.mvp.MvpView
 import msk.pobazar.forceline.entities.Line
+import msk.pobazar.forceline.entities.Point
 
 /**
  * View для активити игры

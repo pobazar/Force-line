@@ -51,7 +51,7 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
      */
     private fun initLines() {
         for (tr in 1..countPoint)
-            lines[tr-1] = Line(field[tr-1], field[transitions[tr-1]])
+            lines[tr - 1] = Line(field[tr - 1], field[transitions[tr - 1]])
         calculateLines()
     }
 
@@ -78,18 +78,18 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
      * @param l2 - вторая линия
      */
     private fun checkLines(l1: Line, l2: Line): Boolean {
-        val ax1: Int = l1.end.x
-        val ax2: Int = l1.start.x
-        val ay1: Int = l1.end.y
-        val ay2: Int = l1.start.y
-        val bx1: Int = l2.end.x
-        val bx2: Int = l2.start.x
-        val by1: Int = l2.end.y
-        val by2: Int = l2.start.y
-        val v1: Int = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1)
-        val v2: Int = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1)
-        val v3: Int = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1)
-        val v4: Int = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1)
+        val ax1: Float = l1.end.x
+        val ax2: Float = l1.start.x
+        val ay1: Float = l1.end.y
+        val ay2: Float = l1.start.y
+        val bx1: Float = l2.end.x
+        val bx2: Float = l2.start.x
+        val by1: Float = l2.end.y
+        val by2: Float = l2.start.y
+        val v1: Float = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1)
+        val v2: Float = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1)
+        val v3: Float = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1)
+        val v4: Float = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1)
         return ((v1 * v2 < 0) && (v3 * v4 < 0))
     }
 }

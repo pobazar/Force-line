@@ -1,26 +1,61 @@
 package msk.pobazar.forceline.ui
 
 import android.content.Context
-import android.graphics.Point
 import android.os.Bundle
 import com.arellomobile.mvp.MvpAppCompatActivity
-import msk.pobazar.forceline.R
 import msk.pobazar.forceline.entities.Line
 import msk.pobazar.forceline.views.GameView
 import android.view.SurfaceHolder
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.SurfaceView
+import msk.pobazar.forceline.entities.Point
+import android.graphics.Paint
+import msk.pobazar.forceline.presenters.GamePresenter
 
 
 class GameActivity : MvpAppCompatActivity(), GameView {
 
+    private val gamePresenter: GamePresenter = GamePresenter()
+
+    lateinit var field: Array<Point>
+    lateinit var lines: Array<Line>
+    var paint: Paint = Paint()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(DrawView(this))
+        paint.color = Color.BLUE
+        paint.strokeWidth = 10F
+        gamePresenter.start()
     }
 
-    class DrawView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
+    fun drawGame(canvas: Canvas) {
+        //canvas.drawColor(Color.GREEN)
+        for (p in field) {
+            canvas.drawCircle(p.x, p.y, 5F, Paint())
+        }
+    }
+
+    /**
+     * Отображает поле на экране
+     */
+    override fun setField(field: Array<Point>, lines: Array<Line>) {
+        this.field = field
+        this.lines = lines
+    }
+
+    /**
+     * Изменяет выделенность точки
+     */
+    override fun setCheckedPoint(point: Point, checked: Boolean) {
+
+    }
+
+    /**
+     * Класс для отрисовки канвы
+     */
+    inner class DrawView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
 
         private var drawThread: DrawThread? = null
 
@@ -49,7 +84,7 @@ class GameActivity : MvpAppCompatActivity(), GameView {
             }
         }
 
-        class DrawThread(private val surfaceHolder: SurfaceHolder) : Thread() {
+        inner class DrawThread(private val surfaceHolder: SurfaceHolder) : Thread() {
 
             var running = false
 
@@ -61,7 +96,7 @@ class GameActivity : MvpAppCompatActivity(), GameView {
                         canvas = surfaceHolder.lockCanvas(null)
                         if (canvas == null)
                             continue
-                        canvas.drawColor(Color.GREEN)
+                        drawGame(canvas)
                     } finally {
                         if (canvas != null) {
                             surfaceHolder.unlockCanvasAndPost(canvas)
@@ -70,13 +105,5 @@ class GameActivity : MvpAppCompatActivity(), GameView {
                 }
             }
         }
-    }
-
-    override fun setField(field: Array<Point>, lines: Array<Line>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun setCheckedPoint(point: Point, checked: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
