@@ -8,10 +8,10 @@ class GeneratorLevel {
     fun generateLevel(): GameLevel {
         val size = 10
         val countPoint = 10
-        lateinit var transition: Array<Int>
-        lateinit var field: Array<Point>
+        val transition: Array<Int> = Array(countPoint) { 0 }
+        val field: Array<Point> = Array(countPoint) { Point(-1, 0F, 0F, false) }
         for (i in 1..countPoint) {
-            field[i - 1] = Point(i - 1, (10 * (i - 1)).toFloat(), (10 * (i - 1)).toFloat(), false)
+            field[i - 1] = Point(i - 1, (100 * (i)).toFloat(), (100 * (i)).toFloat(), false)
         }
         transition[0] = 1
         transition[1] = 2

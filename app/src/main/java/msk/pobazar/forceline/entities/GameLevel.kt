@@ -10,7 +10,7 @@ package msk.pobazar.forceline.entities
  */
 class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val transitions: Array<Int>) {
 
-    lateinit var lines: Array<Line>
+    val lines: Array<Line> = Array(countPoint) {Line( Point(-1, 0F, 0F, false),  Point(-1, 0F, 0F, false))}
 
     init {
         initLines()

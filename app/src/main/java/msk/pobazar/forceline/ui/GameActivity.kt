@@ -11,12 +11,15 @@ import android.graphics.Color
 import android.view.SurfaceView
 import msk.pobazar.forceline.entities.Point
 import android.graphics.Paint
+import msk.pobazar.forceline.entities.GameLevel
 import msk.pobazar.forceline.presenters.GamePresenter
+import msk.pobazar.forceline.utils.GeneratorLevel
 
 
 class GameActivity : MvpAppCompatActivity(), GameView {
 
-    private val gamePresenter: GamePresenter = GamePresenter()
+//    private val gamePresenter: GamePresenter = GamePresenter()
+    private var gameLevel: GameLevel = GeneratorLevel().generateLevel()
 
     lateinit var field: Array<Point>
     lateinit var lines: Array<Line>
@@ -27,13 +30,14 @@ class GameActivity : MvpAppCompatActivity(), GameView {
         setContentView(DrawView(this))
         paint.color = Color.BLUE
         paint.strokeWidth = 10F
-        gamePresenter.start()
+        field=gameLevel.field
+        lines=gameLevel.lines
     }
 
     fun drawGame(canvas: Canvas) {
         //canvas.drawColor(Color.GREEN)
         for (p in field) {
-            canvas.drawCircle(p.x, p.y, 5F, Paint())
+            canvas.drawCircle(p.x, p.y, 50F, Paint())
         }
     }
 
