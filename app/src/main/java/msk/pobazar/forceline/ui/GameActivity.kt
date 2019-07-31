@@ -13,7 +13,10 @@ import msk.pobazar.forceline.entities.Point
 import android.graphics.Paint
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.TextView
 import com.arellomobile.mvp.presenter.InjectPresenter
+import kotlinx.android.synthetic.main.activity_game.view.*
+import msk.pobazar.forceline.R
 import msk.pobazar.forceline.presenters.GamePresenter
 
 
@@ -26,7 +29,6 @@ class GameActivity : MvpAppCompatActivity(), GameView {
 
     lateinit var field: Array<Point>
     lateinit var lines: Array<Line>
-    var checkedId: Int = -1
     var paintPointBlue: Paint = Paint()
     var paintPointRed: Paint = Paint()
     var paintLineBlue: Paint = Paint()
@@ -51,7 +53,7 @@ class GameActivity : MvpAppCompatActivity(), GameView {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 Log.d("touch", "Нажатие вниз $x,$y")
-                gamePresenter.onTouch(x, y, radius)
+                gamePresenter.onTouch(x, y - 85, radius)
             }
         }
         return super.onTouchEvent(event)
@@ -92,10 +94,9 @@ class GameActivity : MvpAppCompatActivity(), GameView {
     /**
      * Отображает поле на экране
      */
-    override fun setGame(field: Array<Point>, lines: Array<Line>, checkedId: Int) {
+    override fun setGame(field: Array<Point>, lines: Array<Line>) {
         this.field = field
         this.lines = lines
-        this.checkedId = checkedId
         setContentView(DrawView(this))
     }
 

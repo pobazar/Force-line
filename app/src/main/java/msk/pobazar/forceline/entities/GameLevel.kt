@@ -34,12 +34,16 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
         lateinit var p1: Point
         lateinit var p2: Point
         for (p in field) {
-            if (p.id == id1)
-                p1 = p
+            if (p.id == id1) {
+                p1 = Point(p.id, p.x, p.y, false)
+                break
+            }
         }
         for (p in field) {
-            if (p.id == id2)
-                p2 = p
+            if (p.id == id2) {
+                p2 = Point(p.id, p.x, p.y, false)
+                break
+            }
         }
 
         for (p in field) {
@@ -57,6 +61,19 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
             }
         }
         calculateLines()
+    }
+
+    /**
+     * Снимаем нажатие с точки
+     */
+    fun offChecked() {
+        for (p in field) {
+            if (p.id == checkedId) {
+                p.checked = false
+                checkedId = -1
+                break
+            }
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ class GeneratorLevel {
         val countPoint = 10
         val transition: Array<Int> = arrayOf(1, 2, 3, 0, 5, 6, 4, 8, 9, 7)
         val field: Array<Point> = Array(countPoint) { i ->
-            Point(i - 1, Random().nextFloat() * 1000 + 100, Random().nextFloat() * 1000 + 100, false)
+            Point(i, Random().nextFloat() * 1000 + 100, Random().nextFloat() * 1000 + 100, false)
         }
 
         return GameLevel(size, field, countPoint, transition)
