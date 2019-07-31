@@ -1,5 +1,6 @@
 package msk.pobazar.forceline.presenters
 
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import msk.pobazar.forceline.entities.GameLevel
@@ -14,9 +15,6 @@ class GamePresenter : MvpPresenter<GameView>() {
     override fun attachView(view: GameView) {
         super.attachView(view)
         this.view = view
-    }
-
-    fun start() {
         view.setField(gameLevel.field, gameLevel.lines)
     }
 }

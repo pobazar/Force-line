@@ -11,39 +11,93 @@ import android.graphics.Color
 import android.view.SurfaceView
 import msk.pobazar.forceline.entities.Point
 import android.graphics.Paint
-import msk.pobazar.forceline.entities.GameLevel
+import android.util.Log
+import android.view.MotionEvent
+import com.arellomobile.mvp.presenter.InjectPresenter
 import msk.pobazar.forceline.presenters.GamePresenter
-import msk.pobazar.forceline.utils.GeneratorLevel
 
 
 class GameActivity : MvpAppCompatActivity(), GameView {
+    @InjectPresenter
+    lateinit var gamePresenter: GamePresenter
 
-    //    private val gamePresenter: GamePresenter = GamePresenter()
-    private var gameLevel: GameLevel = GeneratorLevel().generateLevel()
+    val radius = 50F
+    val strokeWidth = 5F
 
     lateinit var field: Array<Point>
     lateinit var lines: Array<Line>
-    var paintPoint: Paint = Paint()
+    var paintPointBlue: Paint = Paint()
+    var paintPointRed: Paint = Paint()
     var paintLineBlue: Paint = Paint()
     var paintLineRed: Paint = Paint()
+    var x = 0F
+    var y = 0F
+    var checkedId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(DrawView(this))
-        paintPoint.color = Color.BLUE
+
+        paintPointBlue.color = Color.BLUE
+        paintPointRed.color = Color.RED
         paintLineBlue.color = Color.BLUE
-        paintLineBlue.strokeWidth = 5F
+        paintLineBlue.strokeWidth = strokeWidth
         paintLineRed.color = Color.RED
-        paintLineRed.strokeWidth = 5F
-        field = gameLevel.field
-        lines = gameLevel.lines
+        paintLineRed.strokeWidth = strokeWidth
     }
 
-    fun drawGame(canvas: Canvas) {
-        //canvas.drawColor(Color.GREEN)
-        for (p in field) {
-            canvas.drawCircle(p.x, p.y, 50F, paintPoint)
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        x = event.x
+        y = event.y
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                Log.d("touch", "Нажатие вниз $x,$y")
+                for (p in field) {
+                    if (((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y)) <= radius * radius) {
+                        Log.d("touch", "Нажатие на точку")
+                        p.checked = true
+                        if ((checkedId == -1) || (checkedId == p.id))
+                            checkedId = p.id
+                        else {
+                           swapPoint(checkedId, p.id)
+                        }
+                        break
+                    }
+                }
+                if (checkedId == -1)
+                    field[checkedId].checked = false
+            }
         }
+        return super.onTouchEvent(event)
+    }
+
+    fun swapPoint(id1: Int, id2: Int){
+
+    }
+
+    /**
+     * Рисование игры
+     */
+    fun drawGame(canvas: Canvas) {
+        drawLines(canvas)
+        drawPoints(canvas)
+    }
+
+    /**
+     * Рисование точек
+     */
+    fun drawPoints(canvas: Canvas) {
+        for (p in field) {
+            if (p.checked)
+                canvas.drawCircle(p.x, p.y, radius, paintPointRed)
+            else
+                canvas.drawCircle(p.x, p.y, radius, paintPointBlue)
+        }
+    }
+
+    /**
+     * Рисование линий
+     */
+    fun drawLines(canvas: Canvas) {
         for (l in lines) {
             if (l.status)
                 canvas.drawLine(l.end.x, l.end.y, l.start.x, l.start.y, paintLineBlue)
@@ -58,6 +112,7 @@ class GameActivity : MvpAppCompatActivity(), GameView {
     override fun setField(field: Array<Point>, lines: Array<Line>) {
         this.field = field
         this.lines = lines
+        setContentView(DrawView(this))
     }
 
     /**
