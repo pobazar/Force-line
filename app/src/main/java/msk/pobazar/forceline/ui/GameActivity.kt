@@ -26,13 +26,13 @@ class GameActivity : MvpAppCompatActivity(), GameView {
 
     lateinit var field: Array<Point>
     lateinit var lines: Array<Line>
+    var checkedId: Int = -1
     var paintPointBlue: Paint = Paint()
     var paintPointRed: Paint = Paint()
     var paintLineBlue: Paint = Paint()
     var paintLineRed: Paint = Paint()
     var x = 0F
     var y = 0F
-    var checkedId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,27 +51,10 @@ class GameActivity : MvpAppCompatActivity(), GameView {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 Log.d("touch", "Нажатие вниз $x,$y")
-                for (p in field) {
-                    if (((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y)) <= radius * radius) {
-                        Log.d("touch", "Нажатие на точку")
-                        p.checked = true
-                        if ((checkedId == -1) || (checkedId == p.id))
-                            checkedId = p.id
-                        else {
-                           swapPoint(checkedId, p.id)
-                        }
-                        break
-                    }
-                }
-                if (checkedId == -1)
-                    field[checkedId].checked = false
+                gamePresenter.onTouch(x, y, radius)
             }
         }
         return super.onTouchEvent(event)
-    }
-
-    fun swapPoint(id1: Int, id2: Int){
-
     }
 
     /**
@@ -109,17 +92,11 @@ class GameActivity : MvpAppCompatActivity(), GameView {
     /**
      * Отображает поле на экране
      */
-    override fun setField(field: Array<Point>, lines: Array<Line>) {
+    override fun setGame(field: Array<Point>, lines: Array<Line>, checkedId: Int) {
         this.field = field
         this.lines = lines
+        this.checkedId = checkedId
         setContentView(DrawView(this))
-    }
-
-    /**
-     * Изменяет выделенность точки
-     */
-    override fun setCheckedPoint(point: Point, checked: Boolean) {
-
     }
 
     /**

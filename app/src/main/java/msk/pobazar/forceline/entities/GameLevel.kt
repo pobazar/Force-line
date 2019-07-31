@@ -10,7 +10,8 @@ package msk.pobazar.forceline.entities
  */
 class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val transitions: Array<Int>) {
 
-    val lines: Array<Line> = Array(countPoint) {Line( Point(-1, 0F, 0F, false),  Point(-1, 0F, 0F, false))}
+    val lines: Array<Line> = Array(countPoint) { Line(Point(-1, 0F, 0F, false), Point(-1, 0F, 0F, false)) }
+    var checkedId: Int = -1
 
     init {
         initLines()
@@ -29,7 +30,18 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
     /**
      * меняет местами две точки на поле
      */
-    fun swapPoint(p1: Point, p2: Point) {
+    fun swapPoint(id1: Int, id2: Int) {
+        lateinit var p1: Point
+        lateinit var p2: Point
+        for (p in field) {
+            if (p.id == id1)
+                p1 = p
+        }
+        for (p in field) {
+            if (p.id == id2)
+                p2 = p
+        }
+
         for (p in field) {
             if (p.id == p1.id) {
                 p.x = p2.x
@@ -44,6 +56,7 @@ class GameLevel(val size: Int, var field: Array<Point>, val countPoint: Int, val
                 break
             }
         }
+        calculateLines()
     }
 
     /**

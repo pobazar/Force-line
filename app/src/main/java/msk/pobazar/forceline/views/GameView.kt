@@ -12,13 +12,8 @@ interface GameView : MvpView {
      * Отображает поле на экране
      * @param lines - массив линий между точками
      * @param field - массив точек на поле
+     * @param checkedId - id выбраной точки (-1, если ни одна не выбрана)
      */
-    fun setField(field: Array<Point>, lines: Array<Line>)
+    fun setGame(field: Array<Point>, lines: Array<Line>, checkedId: Int)
 
-    /**
-     * Изменяет выделенность точки
-     * @param point - точка
-     * @param checked - статус точки
-     */
-    fun setCheckedPoint(point: Point, checked: Boolean)
 }
