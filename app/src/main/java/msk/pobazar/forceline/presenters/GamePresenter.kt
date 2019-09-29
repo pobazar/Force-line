@@ -14,7 +14,7 @@ class GamePresenter : MvpPresenter<GameView>() {
 
     override fun attachView(view: GameView) {
         super.attachView(view)
-        viewState.setGame(gameLevel.field, gameLevel.lines)
+        viewState.setFirstGame(gameLevel.field, gameLevel.lines)
     }
 
     fun onTouch(x: Float, y: Float, radius: Float) {

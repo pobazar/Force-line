@@ -12,6 +12,6 @@ class Line(val start: Point, val end: Point, var status: Boolean = false) {
      * Сравнение двух объектов
      */
     fun equal(line2: Line): Boolean {
-        return !((start != line2.start) || (end != line2.end))
+        return start == line2.start && end == line2.end
     }
 }

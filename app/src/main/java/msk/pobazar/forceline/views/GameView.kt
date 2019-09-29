@@ -15,4 +15,6 @@ interface GameView : MvpView {
      */
     fun setGame(field: Array<Point>, lines: Array<Line>)
 
+    fun setFirstGame(field: Array<Point>, lines: Array<Line>)
+
 }

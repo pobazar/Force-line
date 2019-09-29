@@ -47,6 +47,11 @@ class GameActivity : MvpAppCompatActivity(), GameView {
         paintLineRed.strokeWidth = strokeWidth
     }
 
+    override fun onStart() {
+        super.onStart()
+        setContentView(DrawView(this))
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         x = event.x
         y = event.y
@@ -70,7 +75,7 @@ class GameActivity : MvpAppCompatActivity(), GameView {
     /**
      * Рисование точек
      */
-    fun drawPoints(canvas: Canvas) {
+    private fun drawPoints(canvas: Canvas) {
         for (p in field) {
             if (p.checked)
                 canvas.drawCircle(p.x, p.y, radius, paintPointRed)
@@ -82,7 +87,7 @@ class GameActivity : MvpAppCompatActivity(), GameView {
     /**
      * Рисование линий
      */
-    fun drawLines(canvas: Canvas) {
+    private fun drawLines(canvas: Canvas) {
         for (l in lines) {
             if (l.status)
                 canvas.drawLine(l.end.x, l.end.y, l.start.x, l.start.y, paintLineBlue)
@@ -97,7 +102,11 @@ class GameActivity : MvpAppCompatActivity(), GameView {
     override fun setGame(field: Array<Point>, lines: Array<Line>) {
         this.field = field
         this.lines = lines
-        setContentView(DrawView(this))
+    }
+
+    override fun setFirstGame(field: Array<Point>, lines: Array<Line>) {
+        this.field = field
+        this.lines = lines
     }
 
     /**
